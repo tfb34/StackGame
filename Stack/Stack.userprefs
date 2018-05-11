@@ -1,0 +1,13 @@
+﻿<Properties StartupItem="Stack.CSharp.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\StackController.cs">
+    <Files>
+      <File FileName="Assets\Scripts\MainMenu.cs" Line="9" Column="65" />
+      <File FileName="Assets\Scripts\StackController.cs" Line="85" Column="93" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

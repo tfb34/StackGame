@@ -9,7 +9,7 @@ public class StackController : MonoBehaviour {
     private int scoreCount = 0;
     private const float Bounds_Size = 3.5f;//frequency
     private float tileTransition = 0.0f;
-    private float tileSpeed = 1.5f;
+    private float tileSpeed = 2.5f;
     private bool movingOnX = true;
     private Vector3 desiredPosition;
     private const float STACK_MOVING_SPEED = 5.0f;
@@ -157,7 +157,7 @@ public class StackController : MonoBehaviour {
                     , (t.position.z > 0)
                     ? t.position.z + (t.localScale.z / 2)
                     : t.position.z - (t.localScale.z / 2)),
-                    new Vector3(t.localScale.x, 1, Mathf.Abs(deltaZ))
+                    new Vector3(t.localScale.x, 1, Mathf.Abs(deltaZ))//!!!!!!!!!!
                    
                     );
                 t.localPosition = new Vector3(lastTilePosition.x, scoreCount, middle-(lastTilePosition.z/2));
@@ -188,7 +188,9 @@ public class StackController : MonoBehaviour {
     }
     private void EndGame()
     {
-        Debug.Log("lose");
+        // Debug.Log("lose");
+        if (PlayerPrefs.GetInt("score") < scoreCount)
+            PlayerPrefs.SetInt("score", scoreCount);
         gameOver = true;
         EndPanel.SetActive(true);
         stack[stackIndex].AddComponent<Rigidbody>();
@@ -203,12 +205,12 @@ public class StackController : MonoBehaviour {
         
         if (movingOnX)
         {
-            stack[stackIndex].transform.localPosition = new Vector3((Mathf.Sin(tileTransition * Bounds_Size)), scoreCount, 0);
+            stack[stackIndex].transform.localPosition = new Vector3((Mathf.Sin(tileTransition)*Bounds_Size), scoreCount, secondaryPosition);
              
         }
         else
         {
-            stack[stackIndex].transform.localPosition = new Vector3(0, scoreCount, Mathf.Sin(tileTransition* Bounds_Size));
+            stack[stackIndex].transform.localPosition = new Vector3(secondaryPosition, scoreCount, Mathf.Sin(tileTransition)*Bounds_Size);
            
         }
     }
