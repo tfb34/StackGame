@@ -9,7 +9,7 @@ public class StackController : MonoBehaviour {
     private int scoreCount = 0;
     private const float Bounds_Size = 3.5f;//frequency
     private float tileTransition = 0.0f;
-    private float tileSpeed = 2.5f;
+    private float tileSpeed = 2f;
     private bool movingOnX = true;
     private Vector3 desiredPosition;
     private const float STACK_MOVING_SPEED = 5.0f;
@@ -25,6 +25,8 @@ public class StackController : MonoBehaviour {
     public Material stackMat;
     public Text scoreText;
     public GameObject EndPanel;
+	private Color32[] currentColor;
+
 	// Use this for initialization
 	void Start () {
         stack = new GameObject[transform.childCount];
@@ -36,7 +38,7 @@ public class StackController : MonoBehaviour {
             stack[i] = transform.GetChild(i).gameObject;
             ColorMesh(stack[i].GetComponent<MeshFilter>().mesh);
         }
-       
+		colorCount = 0;
 	}
 	
 	// Update is called once per frame
@@ -76,15 +78,26 @@ public class StackController : MonoBehaviour {
 
         ColorMesh(stack[stackIndex].GetComponent<MeshFilter>().mesh);
     }
+	int colorCount = 0;
     private void ColorMesh(Mesh mesh)
     {
         Vector3[] vertices = mesh.vertices;
-        Color32[] colors = new Color32[vertices.Length];
-        float f = Mathf.Sin(scoreCount * 0.25f);
+        Color32[] colors = new Color32[vertices.Length];//24 
+		if (colorCount>15) {
+			print ("called");
+			print ("colorCount:  "+colorCount);
+			print (scoreCount / 15);
+			colorCount = 0;
+		}
+		colorCount+=1;
+		float f = Mathf.Sin( colorCount* 0.25f);
         for (int i = 0; i < vertices.Length; i++)
             colors[i] = Lerp4(gameColors[0], gameColors[1], gameColors[2], gameColors[3],f);
+		currentColor = colors;
         mesh.colors32 = colors;
     }
+
+
     private bool PlaceTile()
     {//determines if player has lost or not
 
@@ -221,7 +234,9 @@ public class StackController : MonoBehaviour {
         go.transform.localScale = scale;
         go.AddComponent<Rigidbody>();
         go.GetComponent<MeshRenderer>().material = stackMat;
-        ColorMesh(go.GetComponent<MeshFilter>().mesh);
+        //ColorMesh(go.GetComponent<MeshFilter>().mesh);
+		Mesh m = go.GetComponent<MeshFilter>().mesh;
+		m.colors32 = currentColor;
     }
     private Color32 Lerp4(Color32 a, Color32 b, Color32 c, Color32 d, float t){
         if (t < 0.33f)
